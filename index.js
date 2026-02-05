@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 // ============================================================
 
 const path = require("path");
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 app.use(express.json());
 app.use(
@@ -41,11 +41,6 @@ function checkRate(ip) {
   rateLimit.set(ip, hits);
   return true;
 }
-
-// --- Health check ---
-app.get("/", (req, res) => {
-  res.json({ status: "ok", service: "listwell-investor-api" });
-});
 
 // --- Main endpoint ---
 app.post("/api/investor-interest", async (req, res) => {
@@ -146,3 +141,5 @@ app.listen(PORT, () => {
   console.log(`   Audience ID:    ${process.env.RESEND_AUDIENCE_ID ? "✅ configured" : "⚠️  missing — contacts won't be saved"}`);
   console.log(`   Notify email:   ${process.env.NOTIFY_EMAIL || "mike@hodgen.ai (default)"}\n`);
 });
+
+module.exports = app;
