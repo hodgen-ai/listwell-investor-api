@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 3000;
 // ALLOWED_ORIGIN       → your landing page URL (e.g. https://listwell.ai)
 // ============================================================
 
+const path = require("path");
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.use(express.json());
@@ -24,6 +25,9 @@ app.use(
     methods: ["POST", "GET"],
   })
 );
+
+// Serve the landing page
+app.use(express.static(path.join(__dirname, "public")));
 
 // --- Simple rate limiting (5 per IP per hour) ---
 const rateLimit = new Map();
