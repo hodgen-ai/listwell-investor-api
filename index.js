@@ -72,17 +72,17 @@ app.post("/api/investor-interest", async (req, res) => {
       to: notifyEmail,
       subject: `🟢 New Investor Interest: ${name} (${investment_range || "not specified"})`,
       html: `
-        <div style="font-family: -apple-system, sans-serif; max-width: 500px;">
-          <h2 style="color: #1a1a2e;">New Investor Interest</h2>
+        <div style="font-family: 'Helvetica Neue', -apple-system, sans-serif; max-width: 520px; background: #0a0a0f; border-radius: 16px; padding: 32px; border: 1px solid rgba(255,255,255,0.06);">
+          <div style="font-size: 22px; font-weight: 800; color: #e8e8ef; margin-bottom: 4px;">List<span style="color: #5cff95;">well</span></div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #5cff95; margin-bottom: 24px;">New Investor Interest</div>
           <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #666; width: 120px;">Name</td><td style="padding: 8px 0; font-weight: 600;">${name}</td></tr>
-            <tr><td style="padding: 8px 0; color: #666;">Email</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
-            <tr><td style="padding: 8px 0; color: #666;">Range</td><td style="padding: 8px 0; font-weight: 600;">${investment_range || "—"}</td></tr>
-            <tr><td style="padding: 8px 0; color: #666;">Source</td><td style="padding: 8px 0;">${source || "direct"}</td></tr>
-            <tr><td style="padding: 8px 0; color: #666;">Time</td><td style="padding: 8px 0;">${timestamp || new Date().toISOString()}</td></tr>
+            <tr><td style="padding: 12px 0; color: #b0b0c2; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; width: 100px; border-bottom: 1px solid rgba(255,255,255,0.06);">Name</td><td style="padding: 12px 0; font-weight: 600; color: #e8e8ef; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.06);">${name}</td></tr>
+            <tr><td style="padding: 12px 0; color: #b0b0c2; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid rgba(255,255,255,0.06);">Email</td><td style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);"><a href="mailto:${email}" style="color: #5ca8ff; text-decoration: none; font-size: 15px;">${email}</a></td></tr>
+            <tr><td style="padding: 12px 0; color: #b0b0c2; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid rgba(255,255,255,0.06);">Range</td><td style="padding: 12px 0; font-weight: 700; color: #5cff95; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.06);">${investment_range || "—"}</td></tr>
+            <tr><td style="padding: 12px 0; color: #b0b0c2; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid rgba(255,255,255,0.06);">Source</td><td style="padding: 12px 0; color: #e8e8ef; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.06);">${source || "direct"}</td></tr>
+            <tr><td style="padding: 12px 0; color: #b0b0c2; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">Time</td><td style="padding: 12px 0; color: #e8e8ef; font-size: 15px;">${timestamp || new Date().toISOString()}</td></tr>
           </table>
-          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-          <p style="color: #999; font-size: 13px;">Reply directly to this email to reach ${email}</p>
+          <div style="margin-top: 20px; padding: 12px 16px; background: rgba(92,255,149,0.12); border-radius: 10px; font-size: 13px; color: #b0b0c2;">Reply directly to this email to reach <strong style="color: #e8e8ef;">${email}</strong></div>
         </div>
       `,
       reply_to: email,
