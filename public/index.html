@@ -1259,18 +1259,34 @@
       </div>
 
       <div class="calc-field">
-        <label>Exit Valuation Multiple</label>
+        <label>Pre-Money Valuation</label>
         <div class="slider-row">
-          <input type="range" id="multiple" min="2" max="50" step="1" value="20">
-          <div class="slider-val" id="multipleVal">20&times;</div>
+          <input type="range" id="preMoney" min="500000" max="5000000" step="100000" value="2000000">
+          <div class="slider-val" id="preMoneyVal">$2M</div>
         </div>
       </div>
 
       <div class="calc-field">
-        <label>Your Equity % at Exit (post-dilution est.)</label>
+        <label>Total Round Size</label>
         <div class="slider-row">
-          <input type="range" id="equity" min="0.5" max="15" step="0.5" value="5">
-          <div class="slider-val" id="equityVal">5%</div>
+          <input type="range" id="roundSize" min="150000" max="500000" step="25000" value="300000">
+          <div class="slider-val" id="roundSizeVal">$300K</div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label>Exit Multiple (on current valuation)</label>
+        <div class="slider-row">
+          <input type="range" id="multiple" min="2" max="50" step="1" value="10">
+          <div class="slider-val" id="multipleVal">10&times;</div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label>Future Dilution (from later rounds)</label>
+        <div class="slider-row">
+          <input type="range" id="dilution" min="0" max="60" step="5" value="30">
+          <div class="slider-val" id="dilutionVal">30%</div>
         </div>
       </div>
 
@@ -1294,6 +1310,23 @@
       </div>
 
       <div class="calc-results">
+        <div class="calc-results-title">Your Ownership</div>
+
+        <div class="result-row">
+          <span class="result-label">Post-Money Valuation</span>
+          <span class="result-value" id="postMoney">&mdash;</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Your Initial Equity</span>
+          <span class="result-value blue" id="initialEquity">&mdash;</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Your Equity at Exit (after dilution)</span>
+          <span class="result-value blue" id="exitEquity">&mdash;</span>
+        </div>
+      </div>
+
+      <div class="calc-results" style="margin-top: 0.75rem;">
         <div class="calc-results-title">Projected Returns</div>
 
         <div class="result-row">
@@ -1334,7 +1367,7 @@
         </div>
       </div>
       <div class="calc-disclaimer">
-        Illustrative only. Assumes 23.8% combined federal CG + NIIT rate. Actual results depend on individual circumstances, AMT, and state-specific rules. The $15M QSBS cap applies per taxpayer per issuer. Not tax or investment advice.
+        Illustrative only. Assumes 23.8% combined federal CG + NIIT rate. Future dilution is an estimate &mdash; actual dilution depends on subsequent round sizes and terms. The $15M QSBS cap applies per taxpayer per issuer. Not tax or investment advice.
       </div>
     </div>
   </div>
@@ -1443,33 +1476,51 @@
 
 <script>
   var fmt = function(n) {
+    if (n >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
     if (n >= 1e6) return '$' + (n / 1e6).toFixed(n >= 1e7 ? 1 : 2) + 'M';
     if (n >= 1e3) return '$' + (n / 1e3).toFixed(n >= 1e5 ? 0 : 1) + 'K';
     return '$' + n.toFixed(0);
   };
 
   var investmentEl = document.getElementById('investment');
+  var preMoneyEl = document.getElementById('preMoney');
+  var roundSizeEl = document.getElementById('roundSize');
   var multipleEl = document.getElementById('multiple');
-  var equityEl = document.getElementById('equity');
+  var dilutionEl = document.getElementById('dilution');
   var holdingEl = document.getElementById('holdingPeriod');
   var stateEl = document.getElementById('stateTax');
 
   function calculate() {
     var investment = parseFloat(investmentEl.value);
+    var preMoney = parseFloat(preMoneyEl.value);
+    var roundSize = parseFloat(roundSizeEl.value);
     var multiple = parseFloat(multipleEl.value);
-    var equityPct = parseFloat(equityEl.value) / 100;
+    var dilutionPct = parseFloat(dilutionEl.value) / 100;
     var holdingYears = parseInt(holdingEl.value);
     var stateRate = parseFloat(stateEl.value);
 
+    // Cap investment to round size
+    if (investment > roundSize) {
+      investment = roundSize;
+      investmentEl.value = investment;
+    }
+
+    // Ownership math
+    var postMoney = preMoney + roundSize;
+    var initialEquity = investment / postMoney;
+    var exitEquity = initialEquity * (1 - dilutionPct);
+
+    // Exit math
+    var exitValuation = postMoney * multiple;
+    var yourShare = exitValuation * exitEquity;
+    var capitalGain = yourShare - investment;
+    if (capitalGain < 0) capitalGain = 0;
+
+    // QSBS
     var qsbsExclusion;
     if (holdingYears >= 5) qsbsExclusion = 1.0;
     else if (holdingYears >= 4) qsbsExclusion = 0.75;
     else qsbsExclusion = 0.50;
-
-    var impliedValuation = investment / equityPct;
-    var exitValuation = impliedValuation * multiple;
-    var yourShare = exitValuation * equityPct;
-    var capitalGain = yourShare - investment;
 
     var fedRate = 0.238;
     var fedTaxWithout = capitalGain * fedRate;
@@ -1490,12 +1541,21 @@
     var stateTaxAmt = capitalGain * stateRate;
     var taxSavings = fedTaxWithout - fedTaxWith;
     var netPayout = yourShare - fedTaxWith - stateTaxAmt;
-    var returnMultiple = netPayout / investment;
+    var returnMultiple = investment > 0 ? netPayout / investment : 0;
 
+    // Update slider display values
     document.getElementById('investmentVal').textContent = fmt(investment);
+    document.getElementById('preMoneyVal').textContent = fmt(preMoney);
+    document.getElementById('roundSizeVal').textContent = fmt(roundSize);
     document.getElementById('multipleVal').textContent = multiple + '\u00d7';
-    document.getElementById('equityVal').textContent = equityPct * 100 + '%';
+    document.getElementById('dilutionVal').textContent = dilutionPct * 100 + '%';
 
+    // Update ownership results
+    document.getElementById('postMoney').textContent = fmt(postMoney);
+    document.getElementById('initialEquity').textContent = (initialEquity * 100).toFixed(2) + '%';
+    document.getElementById('exitEquity').textContent = (exitEquity * 100).toFixed(2) + '%';
+
+    // Update return results
     document.getElementById('exitVal').textContent = fmt(exitValuation);
     document.getElementById('yourShare').textContent = fmt(yourShare);
     document.getElementById('capGain').textContent = fmt(capitalGain);
@@ -1507,7 +1567,7 @@
     document.getElementById('returnMultiple').textContent = returnMultiple.toFixed(1) + '\u00d7 return';
   }
 
-  [investmentEl, multipleEl, equityEl, holdingEl, stateEl].forEach(function(el) {
+  [investmentEl, preMoneyEl, roundSizeEl, multipleEl, dilutionEl, holdingEl, stateEl].forEach(function(el) {
     el.addEventListener('input', calculate);
     el.addEventListener('change', calculate);
   });
