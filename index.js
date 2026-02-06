@@ -60,7 +60,7 @@ app.post("/api/investor-interest", async (req, res) => {
   }
 
   const notifyEmail = process.env.NOTIFY_EMAIL || "mike@hodgen.ai";
-  const fromEmail = process.env.FROM_EMAIL || "Listwell <invest@listwell.ai>";
+  const fromEmail = process.env.FROM_EMAIL || "Listwell <onboarding@resend.dev>";
   const audienceId = process.env.RESEND_AUDIENCE_ID;
 
   const results = { notification: null, contact: null, errors: [] };
