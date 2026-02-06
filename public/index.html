@@ -23,12 +23,16 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
-    overflow-x: hidden;
   }
 
   /* --- NAV --- */
@@ -76,6 +80,7 @@
     text-align: center;
     padding: 8rem 2rem 4rem;
     position: relative;
+    overflow: hidden;
   }
   .hero::before {
     content: '';
@@ -364,6 +369,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    max-width: 100%;
   }
   .proof-banner::before {
     content: '';
@@ -679,6 +685,7 @@
     text-align: center;
     padding: 8rem 2rem;
     position: relative;
+    overflow: hidden;
   }
   .final-cta::before {
     content: '';
