@@ -923,6 +923,234 @@
     font-size: 0.85rem;
   }
 
+  /* --- FOUNDER --- */
+  .founder-section {
+    text-align: center;
+    padding: 6rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .founder-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+  }
+  .founder-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  .founder-bio {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto 2rem;
+  }
+  .founder-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .founder-stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.75rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .founder-stat:hover { border-color: rgba(92,255,149,0.2); transform: translateY(-3px); }
+  .founder-stat .f-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+  .founder-stat .f-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+  }
+
+  /* --- TIMELINE --- */
+  .timeline {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-dim), var(--border));
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 64px;
+    padding-bottom: 2.5rem;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: 14px; top: 4px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 15px var(--accent-dim);
+  }
+  .timeline-item:first-child .timeline-dot {
+    background: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+  .timeline-when {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .timeline-what {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 0.3rem;
+  }
+  .timeline-detail {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* --- USE OF FUNDS --- */
+  .funds-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .fund-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .fund-card:hover { border-color: rgba(92,255,149,0.2); transform: translateY(-3px); }
+  .fund-pct {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .fund-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+  .fund-detail {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* --- FAQ --- */
+  .faq-list {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .faq-item:hover { border-color: rgba(92,255,149,0.15); }
+  .faq-item.open { border-color: rgba(92,255,149,0.25); }
+  .faq-q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: var(--surface);
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .faq-q:hover { background: var(--surface-2); }
+  .faq-arrow {
+    font-size: 1.2rem;
+    color: var(--accent);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s;
+    padding: 0 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .faq-item.open .faq-a {
+    max-height: 300px;
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  /* --- STICKY MOBILE CTA --- */
+  .sticky-cta {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 99;
+    padding: 0.75rem 1.25rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.9rem;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 0 30px var(--accent-dim);
+  }
+  @media (max-width: 900px) {
+    .sticky-cta { display: block; }
+    footer { padding-bottom: 5rem; }
+  }
+
   /* --- FOOTER --- */
   footer {
     text-align: center;
@@ -940,7 +1168,7 @@
     .flow-steps { grid-template-columns: repeat(2, 1fr); }
     .flow-steps::before { display: none; }
     .problem-grid { grid-template-columns: 1fr; }
-    .market-grid, .revenue-cards { grid-template-columns: 1fr; }
+    .market-grid, .revenue-cards, .funds-grid { grid-template-columns: 1fr; }
     .hero-stats { gap: 1.5rem; }
     .qsbs-layout { grid-template-columns: 1fr; }
     .proof-banner { padding: 2.5rem 1.5rem; }
@@ -1286,6 +1514,32 @@
   </div>
 </section>
 
+<!-- FOUNDER -->
+<section class="founder-section">
+  <div class="section-label reveal">The Builder</div>
+  <div class="founder-name reveal">Michael Hodgen</div>
+  <div class="founder-title reveal">Founder &amp; Chief AI Officer</div>
+  <p class="founder-bio reveal">Solo founder. AI-native builder. Michael built Listwell from the inside of a $10M+ Shopify brand he operates &mdash; not from a whiteboard. He writes the code, trains the models, designs the UX, and runs GTM. When AI is your co-founder, you don't need a team of 20. You need one person who sees the full picture.</p>
+  <div class="founder-stats reveal">
+    <div class="founder-stat">
+      <div class="f-val">$10M+</div>
+      <div class="f-label">Shopify Brand Revenue</div>
+    </div>
+    <div class="founder-stat">
+      <div class="f-val">140K+</div>
+      <div class="f-label">Customers Analyzed</div>
+    </div>
+    <div class="founder-stat">
+      <div class="f-val">500+</div>
+      <div class="f-label">SKUs Optimized</div>
+    </div>
+    <div class="founder-stat">
+      <div class="f-val">AI-Built</div>
+      <div class="f-label">Near-Zero Payroll</div>
+    </div>
+  </div>
+</section>
+
 <!-- MOAT -->
 <section>
   <div class="section-label reveal">Why Now</div>
@@ -1311,6 +1565,45 @@
       <div class="moat-icon">&#x1f4ca;</div>
       <h3>Timing + Distribution</h3>
       <p>The Shopify App Store rewards early movers with reviews, rankings, and organic installs. Getting there first &mdash; with a product that actually works &mdash; is the moat.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section>
+  <div class="section-label reveal">The Plan</div>
+  <h2 class="section-title reveal">What happens after you invest</h2>
+  <p class="section-sub reveal">This isn't a "we'll figure it out" pitch. Every milestone is mapped. Your capital accelerates a machine that's already running.</p>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-when">Now</div>
+      <div class="timeline-what">Insider round + beta with founding brand</div>
+      <div class="timeline-detail">Product is built and running on a live Shopify store. Raising $150K&ndash;$500K from operators who want in before launch.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-when">Month 3</div>
+      <div class="timeline-what">Shopify App Store launch</div>
+      <div class="timeline-detail">Public listing. Organic installs begin. First 50 stores onboarded with white-glove onboarding to lock in 5-star reviews.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-when">Month 6</div>
+      <div class="timeline-what">250 stores &middot; $195K ARR</div>
+      <div class="timeline-detail">Content marketing flywheel running. Case studies from founding merchants. App Store ranking climbing.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-when">Month 12</div>
+      <div class="timeline-what">500 stores &middot; $390K ARR</div>
+      <div class="timeline-detail">Self-serve growth engine. Referral program live. Exploring partnerships with Shopify agencies and theme developers.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-when">Month 18</div>
+      <div class="timeline-what">1,000 stores &middot; $780K ARR &middot; $7.8M valuation</div>
+      <div class="timeline-detail">Profitable. QSBS clock ticking. Position for Series A or continued bootstrapped growth with distributions.</div>
     </div>
   </div>
 </section>
@@ -1355,6 +1648,30 @@
         <li>Dedicated onboarding</li>
         <li>Multi-store support</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- USE OF FUNDS -->
+<section>
+  <div class="section-label reveal">Use of Funds</div>
+  <h2 class="section-title reveal">Every dollar goes to growth. Not overhead.</h2>
+  <p class="section-sub reveal">AI builds the product. There's no engineering team to feed. Your capital goes directly to acquiring stores and scaling distribution.</p>
+  <div class="funds-grid stagger">
+    <div class="fund-card reveal">
+      <div class="fund-pct">60%</div>
+      <div class="fund-label">Go-to-Market</div>
+      <div class="fund-detail">Shopify App Store optimization, content marketing, agency partnerships, case studies, and founder-led sales to first 250 stores.</div>
+    </div>
+    <div class="fund-card reveal">
+      <div class="fund-pct">25%</div>
+      <div class="fund-label">Infrastructure</div>
+      <div class="fund-detail">AI API costs (OpenAI, Anthropic), hosting, Shopify API scaling, monitoring, and security. The engine that powers everything.</div>
+    </div>
+    <div class="fund-card reveal">
+      <div class="fund-pct">15%</div>
+      <div class="fund-label">Runway</div>
+      <div class="fund-detail">Operating buffer to reach self-sustaining revenue. At 250 stores ($195K ARR), the business funds itself.</div>
     </div>
   </div>
 </section>
@@ -1526,6 +1843,39 @@
   </div>
 </section>
 
+<!-- FAQ -->
+<section>
+  <div class="section-label reveal">Investor FAQ</div>
+  <h2 class="section-title reveal">The questions you're already thinking</h2>
+  <p class="section-sub reveal">If we didn't answer it, you'd ask. So here it is.</p>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <div class="faq-q">"Why can't merchants just use ChatGPT?"<span class="faq-arrow">&#x25BE;</span></div>
+      <div class="faq-a">They can. And they do &mdash; once. ChatGPT doesn't know the brand's voice, their customer's psychology, or their SEO gaps. It can't analyze product images with context. It can't merge new copy around sizing charts without destroying them. And it definitely can't publish to Shopify with one click. ChatGPT is a general-purpose tool. Listwell is a purpose-built engine.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">"What if Shopify builds this?"<span class="faq-arrow">&#x25BE;</span></div>
+      <div class="faq-a">Shopify is a platform, not an AI content company. They've historically enabled their ecosystem through apps, not by competing with them. Shopify Magic (their AI) does basic description generation with no brand intelligence, no image context, and no batch processing. If anything, Shopify building lightweight AI features validates the category and drives merchants to seek more powerful solutions.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">"How do you acquire customers at near-zero CAC?"<span class="faq-arrow">&#x25BE;</span></div>
+      <div class="faq-a">The Shopify App Store is one of the last organic distribution channels in software. Merchants search for solutions, find apps, read reviews, and install. Top-ranked apps with strong reviews compound installs over time. We supplement with SEO content marketing (we're an SEO company &mdash; we know how to rank), agency partnerships, and case studies from founding merchants.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">"What's the exit?"<span class="faq-arrow">&#x25BE;</span></div>
+      <div class="faq-a">Multiple paths. Shopify ecosystem acquisitions happen regularly (Shopify acquires ~2-3 apps per year). SaaS aggregators actively buy profitable Shopify apps at 5-10x ARR. A larger SEO platform (SEMrush, Ahrefs) could acquire for vertical expansion. Or we continue growing profitably with distributions to investors. QSBS structuring means your gains could be tax-free regardless of exit path.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">"Why invest in a solo founder?"<span class="faq-arrow">&#x25BE;</span></div>
+      <div class="faq-a">Because AI changed the math. A solo AI-native founder means near-zero payroll, no co-founder equity splits, no team politics, and a burn rate so low that your capital buys 10x more runway than a traditional startup. Michael isn't a solo founder because he can't hire &mdash; he's solo because AI makes hiring unnecessary at this stage. When the time comes to scale the team, the business will fund it.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">"Is the product actually built?"<span class="faq-arrow">&#x25BE;</span></div>
+      <div class="faq-a">Yes. This isn't a pitch for something that might exist someday. The product is running in production on a live $10M+ Shopify store. 500+ SKUs have been optimized. The Brand Intelligence Layer, Vision AI, Smart Merge, and batch publishing pipeline are all built and working. This round funds go-to-market, not development.</div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="final-cta" id="contact">
   <div class="section-label reveal">The Ask</div>
@@ -1622,6 +1972,11 @@
 
   <span class="cta-secondary" style="margin-top: 2rem;">mike@hodgen.ai &middot; Hodgen.AI</span>
 </section>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#contact">Secure My Spot &rarr;</a>
+</div>
 
 <footer>
   &copy; 2026 Listwell by Hodgen.AI &middot; Built with conviction, not VC theater.
@@ -1814,6 +2169,30 @@
     submitBtn.style.boxShadow = 'none';
     submitBtn.style.transform = 'translateY(0)';
   });
+
+  // === FAQ ACCORDION ===
+  document.querySelectorAll('.faq-q').forEach(function(q) {
+    q.addEventListener('click', function() {
+      var item = this.parentElement;
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // === STICKY CTA VISIBILITY ===
+  var stickyCta = document.getElementById('stickyCta');
+  var contactSection = document.getElementById('contact');
+  if (stickyCta && contactSection) {
+    var stickyObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        stickyCta.style.opacity = entry.isIntersecting ? '0' : '1';
+        stickyCta.style.pointerEvents = entry.isIntersecting ? 'none' : 'auto';
+      });
+    }, { threshold: 0.1 });
+    stickyObserver.observe(contactSection);
+    stickyCta.style.transition = 'opacity 0.3s';
+  }
 
   // === SCROLL REVEAL ANIMATIONS ===
   var revealObserver = new IntersectionObserver(function(entries) {
