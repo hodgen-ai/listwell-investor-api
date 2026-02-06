@@ -71,6 +71,13 @@
     transition: all 0.2s;
   }
   .nav-cta:hover { box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-1px); }
+  nav {
+    animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-100%); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
   /* --- HERO --- */
   .hero {
@@ -84,11 +91,14 @@
   }
   .hero::before {
     content: '';
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    position: absolute;
+    top: var(--mouse-y, 30%); left: var(--mouse-x, 50%);
+    transform: translate(-50%, -50%);
     width: 800px; height: 800px;
     background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
     pointer-events: none;
     animation: pulse 6s ease-in-out infinite;
+    transition: top 0.8s ease-out, left 0.8s ease-out;
   }
   @keyframes pulse {
     0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
@@ -105,7 +115,7 @@
     border-radius: 100px;
     margin-bottom: 2.5rem;
     position: relative;
-    animation: fadeUp 0.8s ease-out;
+    animation: fadeUp 0.8s ease-out, borderGlow 3s ease-in-out infinite;
   }
   .hero h1 {
     font-family: 'Syne', sans-serif;
@@ -135,6 +145,74 @@
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- SCROLL REVEAL SYSTEM --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+  /* Stagger delays for children */
+  .stagger > *:nth-child(1) { transition-delay: 0s; }
+  .stagger > *:nth-child(2) { transition-delay: 0.1s; }
+  .stagger > *:nth-child(3) { transition-delay: 0.2s; }
+  .stagger > *:nth-child(4) { transition-delay: 0.3s; }
+  .stagger > *:nth-child(5) { transition-delay: 0.35s; }
+  .stagger > *:nth-child(6) { transition-delay: 0.4s; }
+  .stagger > *:nth-child(7) { transition-delay: 0.45s; }
+
+  /* --- GLOW PULSE ON ACCENT ELEMENTS --- */
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 20px var(--accent-dim); }
+    50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 80px var(--accent-dim); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes slideInFromBottom {
+    from { opacity: 0; transform: translateY(60px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes borderGlow {
+    0%, 100% { border-color: rgba(92,255,149,0.15); }
+    50% { border-color: rgba(92,255,149,0.4); }
   }
 
   .hero-stats {
@@ -201,8 +279,9 @@
     transition: all 0.3s;
   }
   .problem-card:hover {
-    border-color: rgba(255,92,106,0.2);
-    transform: translateY(-3px);
+    border-color: rgba(255,92,106,0.3);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(255,92,106,0.08);
   }
   .problem-icon {
     font-size: 1.5rem;
@@ -252,6 +331,12 @@
     color: var(--accent);
     margin: 0 auto 1.25rem;
     box-shadow: 0 0 25px var(--accent-dim);
+    animation: glowPulse 3s ease-in-out infinite;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .flow-step:hover .step-num {
+    transform: scale(1.15);
+    box-shadow: 0 0 40px var(--accent-glow);
   }
   .flow-step h3 {
     font-family: 'Syne', sans-serif;
@@ -318,7 +403,7 @@
     text-align: center;
     transition: all 0.3s;
   }
-  .market-card:hover { border-color: rgba(92,255,149,0.15); transform: translateY(-3px); }
+  .market-card:hover { border-color: rgba(92,255,149,0.3); transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--accent-dim); }
   .market-num {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
@@ -346,7 +431,7 @@
     padding: 2rem;
     transition: all 0.3s;
   }
-  .moat-card:hover { border-color: rgba(92,255,149,0.15); transform: translateY(-2px); }
+  .moat-card:hover { border-color: rgba(92,255,149,0.3); transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--accent-dim); }
   .moat-icon { font-size: 1.75rem; margin-bottom: 1rem; }
   .moat-card h3 {
     font-family: 'Syne', sans-serif;
@@ -422,11 +507,12 @@
     padding: 2.25rem;
     transition: all 0.3s;
   }
-  .rev-card:hover { border-color: rgba(92,255,149,0.15); }
+  .rev-card:hover { border-color: rgba(92,255,149,0.3); transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--accent-dim); }
   .rev-card.featured {
     border-color: var(--accent);
     box-shadow: 0 0 40px var(--accent-dim);
     position: relative;
+    animation: glowPulse 4s ease-in-out infinite;
   }
   .rev-card.featured::after {
     content: 'MOST POPULAR';
@@ -726,9 +812,20 @@
     text-decoration: none;
     transition: all 0.25s;
   }
+  .cta-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
   .cta-btn:hover {
-    box-shadow: 0 0 50px var(--accent-glow);
-    transform: translateY(-2px);
+    box-shadow: 0 0 50px var(--accent-glow), 0 0 100px var(--accent-dim);
+    transform: translateY(-3px) scale(1.03);
   }
   .cta-secondary {
     display: block;
@@ -831,26 +928,26 @@
 
 <!-- PROBLEM -->
 <section>
-  <div class="section-label">The Problem</div>
-  <h2 class="section-title">Shopify merchants are flying blind on SEO</h2>
-  <p class="section-sub">There are SEO tools and AI copy tools &mdash; but they work in silos. Merchants still end up manually stitching together audits, rewrites, image optimization, and publishing across multiple platforms.</p>
-  <div class="problem-grid">
-    <div class="problem-card">
+  <div class="section-label reveal">The Problem</div>
+  <h2 class="section-title reveal">Shopify merchants are flying blind on SEO</h2>
+  <p class="section-sub reveal">There are SEO tools and AI copy tools &mdash; but they work in silos. Merchants still end up manually stitching together audits, rewrites, image optimization, and publishing across multiple platforms.</p>
+  <div class="problem-grid stagger">
+    <div class="problem-card reveal">
       <div class="problem-icon">&#x1f9f1;</div>
       <h3>Audit-Only Tools</h3>
       <p>Yoast, SEMrush, and Plug In SEO tell you what's wrong. They don't fix it. Merchants with 500+ SKUs can't manually rewrite everything.</p>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <div class="problem-icon">&#x1f916;</div>
       <h3>Generic AI Copy</h3>
       <p>Tools like ChatGPT or Jasper output generic, brand-deaf descriptions. No understanding of ICP, no competitive positioning, no voice DNA.</p>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <div class="problem-icon">&#x1f5bc;&#xfe0f;</div>
       <h3>Shallow Image SEO</h3>
       <p>Some tools generate alt text from images, but without product context they misidentify patterns, fabrics, and details. "Palm leaf print" when it's actually "Techtronix circuitry" doesn't help your rankings.</p>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <div class="problem-icon">&#x1f4a5;</div>
       <h3>Destructive Overwrites</h3>
       <p>Most AI content tools replace everything &mdash; care instructions, sizing charts, material specs. Some offer previews, but none intelligently merge new copy around the sections merchants need to keep.</p>
@@ -860,26 +957,26 @@
 
 <!-- HOW IT WORKS -->
 <section>
-  <div class="section-label">How It Works</div>
-  <h2 class="section-title">Four steps. Fully automated.</h2>
-  <p class="section-sub">From install to optimized listings in under an hour &mdash; no copywriter needed.</p>
-  <div class="flow-steps">
-    <div class="flow-step">
+  <div class="section-label reveal">How It Works</div>
+  <h2 class="section-title reveal">Four steps. Fully automated.</h2>
+  <p class="section-sub reveal">From install to optimized listings in under an hour &mdash; no copywriter needed.</p>
+  <div class="flow-steps stagger">
+    <div class="flow-step reveal">
       <div class="step-num">1</div>
       <h3>Brand Onboarding</h3>
       <p>Guided setup builds your Brand Intelligence Layer &mdash; voice, ICP, competitors, keywords.</p>
     </div>
-    <div class="flow-step">
+    <div class="flow-step reveal">
       <div class="step-num">2</div>
       <h3>AI Analysis</h3>
       <p>Vision AI scans every product image. NLP engine analyzes existing copy and SEO gaps.</p>
     </div>
-    <div class="flow-step">
+    <div class="flow-step reveal">
       <div class="step-num">3</div>
       <h3>Smart Generation</h3>
       <p>New descriptions, meta titles, meta descriptions, and alt text &mdash; preserving what matters.</p>
     </div>
-    <div class="flow-step">
+    <div class="flow-step reveal">
       <div class="step-num">4</div>
       <h3>Publish</h3>
       <p>Review in dry-run mode or auto-publish. Batch by collection, vendor, or query.</p>
@@ -889,10 +986,10 @@
 
 <!-- COMPARISON -->
 <section>
-  <div class="section-label">Competitive Landscape</div>
-  <h2 class="section-title">Where we win</h2>
-  <p class="section-sub">Other tools handle pieces of the SEO puzzle. Listwell is the first to combine brand intelligence, contextual image analysis, smart content merging, and direct Shopify publishing into one automated workflow.</p>
-  <div class="comp-table-wrap">
+  <div class="section-label reveal">Competitive Landscape</div>
+  <h2 class="section-title reveal">Where we win</h2>
+  <p class="section-sub reveal">Other tools handle pieces of the SEO puzzle. Listwell is the first to combine brand intelligence, contextual image analysis, smart content merging, and direct Shopify publishing into one automated workflow.</p>
+  <div class="comp-table-wrap reveal-scale">
     <table>
       <thead>
         <tr>
@@ -944,19 +1041,19 @@
 
 <!-- MARKET -->
 <section>
-  <div class="section-label">Market Opportunity</div>
-  <h2 class="section-title">A blue ocean inside the Shopify ecosystem</h2>
-  <p class="section-sub">The Shopify app store has thousands of SEO-related apps, but most are audit dashboards or single-feature tools. None offer an end-to-end, brand-aware optimization pipeline that publishes directly.</p>
-  <div class="market-grid">
-    <div class="market-card">
+  <div class="section-label reveal">Market Opportunity</div>
+  <h2 class="section-title reveal">A blue ocean inside the Shopify ecosystem</h2>
+  <p class="section-sub reveal">The Shopify app store has thousands of SEO-related apps, but most are audit dashboards or single-feature tools. None offer an end-to-end, brand-aware optimization pipeline that publishes directly.</p>
+  <div class="market-grid stagger">
+    <div class="market-card reveal">
       <div class="market-num">4.5M</div>
       <div class="market-label">Active Shopify stores globally</div>
     </div>
-    <div class="market-card">
+    <div class="market-card reveal">
       <div class="market-num">$9.3B</div>
       <div class="market-label">Global SEO tools market (2025)</div>
     </div>
-    <div class="market-card">
+    <div class="market-card reveal">
       <div class="market-num">#1</div>
       <div class="market-label">Organic search is the top free traffic source for Shopify merchants</div>
     </div>
@@ -964,7 +1061,7 @@
 
   <!-- UNIT ECONOMICS -->
   <div style="margin-top: 4rem;">
-    <div class="proof-banner">
+    <div class="proof-banner reveal-scale">
       <div class="section-label">The Math</div>
       <h2>We don't need a miracle. We need 1,000 stores.</h2>
       <p>Out of 4.5 million Shopify stores, we need to capture 0.02% to hit profitability. Here's what that looks like at a blended $65/mo ARPU across our three tiers.</p>
@@ -1011,7 +1108,7 @@
 
 <!-- TRACTION -->
 <section>
-  <div class="proof-banner">
+  <div class="proof-banner reveal-scale">
     <div class="section-label">Built in Production, Not in a Lab</div>
     <h2>Already generating revenue impact</h2>
     <p>Listwell was born inside a real $10M+ Shopify brand with 140K+ customers. The Brand Intelligence Layer was trained on live customer and order data &mdash; not synthetic benchmarks.</p>
@@ -1038,26 +1135,26 @@
 
 <!-- MOAT -->
 <section>
-  <div class="section-label">Defensibility</div>
-  <h2 class="section-title">Why this compounds</h2>
-  <p class="section-sub">Every new merchant makes the system smarter. Every optimization feeds the learning loop.</p>
-  <div class="moat-grid">
-    <div class="moat-card">
+  <div class="section-label reveal">Defensibility</div>
+  <h2 class="section-title reveal">Why this compounds</h2>
+  <p class="section-sub reveal">Every new merchant makes the system smarter. Every optimization feeds the learning loop.</p>
+  <div class="moat-grid stagger">
+    <div class="moat-card reveal">
       <div class="moat-icon">&#x1f9ec;</div>
       <h3>Brand Intelligence Layer</h3>
       <p>Proprietary onboarding builds a unique brand fingerprint per merchant. Competitors would need to rebuild this architecture from scratch.</p>
     </div>
-    <div class="moat-card">
+    <div class="moat-card reveal">
       <div class="moat-icon">&#x1f441;&#xfe0f;</div>
       <h3>Vision + Context AI</h3>
       <p>Image analysis paired with product metadata (titles, tags, collections) generates alt text that's actually accurate to the product &mdash; not generic descriptions of what a pattern "looks like."</p>
     </div>
-    <div class="moat-card">
+    <div class="moat-card reveal">
       <div class="moat-icon">&#x1f512;</div>
       <h3>Smart Merge</h3>
       <p>Trust is the unlock. Merchants won't use tools that destroy their content. Smart Merge is the reason they'll stay.</p>
     </div>
-    <div class="moat-card">
+    <div class="moat-card reveal">
       <div class="moat-icon">&#x1f4ca;</div>
       <h3>Data Flywheel</h3>
       <p>Each merchant's conversion and ranking data feeds back into better models. Network effects across verticals.</p>
@@ -1067,11 +1164,11 @@
 
 <!-- REVENUE -->
 <section>
-  <div class="section-label">Revenue Model</div>
-  <h2 class="section-title">SaaS + usage hybrid</h2>
-  <p class="section-sub">Proven Shopify app store pricing that scales with merchant success.</p>
-  <div class="revenue-cards">
-    <div class="rev-card">
+  <div class="section-label reveal">Revenue Model</div>
+  <h2 class="section-title reveal">SaaS + usage hybrid</h2>
+  <p class="section-sub reveal">Proven Shopify app store pricing that scales with merchant success.</p>
+  <div class="revenue-cards stagger">
+    <div class="rev-card reveal">
       <div class="rev-tier">Starter</div>
       <div class="rev-price">$29<span>/mo</span></div>
       <div class="rev-desc">For new stores getting started</div>
@@ -1094,7 +1191,7 @@
         <li>Priority support</li>
       </ul>
     </div>
-    <div class="rev-card">
+    <div class="rev-card reveal">
       <div class="rev-tier">Enterprise</div>
       <div class="rev-price">$249<span>/mo</span></div>
       <div class="rev-desc">For high-volume catalogs</div>
@@ -1117,7 +1214,7 @@
 
   <div class="qsbs-layout">
     <!-- LEFT: QSBS INFO -->
-    <div class="qsbs-info">
+    <div class="qsbs-info reveal-left">
       <h3>How &sect;1202 QSBS Works for You</h3>
       <p>When you invest directly in a qualifying C Corp with under $75M in gross assets, your shares become Qualified Small Business Stock. Hold for the required period, and your capital gains are excluded from federal income tax &mdash; up to the greater of $15M or 10&times; your cost basis.</p>
 
@@ -1149,7 +1246,7 @@
     </div>
 
     <!-- RIGHT: CALCULATOR -->
-    <div class="calculator">
+    <div class="calculator reveal-right">
       <div class="calc-title">Investor Return Calculator</div>
       <div class="calc-subtitle">Model your exit with QSBS tax advantages</div>
 
@@ -1245,8 +1342,8 @@
 
 <!-- CTA -->
 <section class="final-cta" id="contact">
-  <div class="section-label">The Opportunity</div>
-  <h2>Small round. <span style="color: var(--accent);">Big upside.</span></h2>
+  <div class="section-label reveal">The Opportunity</div>
+  <h2 class="reveal">Small round. <span style="color: var(--accent);">Big upside.</span></h2>
   <p>We're raising a small insider round of $150K&ndash;$500K from operators who understand e-commerce, AI, and compounding software businesses.</p>
   <p class="ask-details">No VC theater. No 50-slide decks. AI keeps build costs near zero &mdash; which means your capital goes to GTM, not payroll. Structured as a C Corp for &sect;1202 QSBS eligibility from day one.</p>
 
@@ -1463,6 +1560,103 @@
   submitBtn.addEventListener('mouseleave', function() {
     submitBtn.style.boxShadow = 'none';
     submitBtn.style.transform = 'translateY(0)';
+  });
+
+  // === SCROLL REVEAL ANIMATIONS ===
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
+  // === ANIMATED NUMBER COUNTERS ===
+  function animateCounter(el, target, suffix, prefix) {
+    var start = 0;
+    var duration = 1800;
+    var startTime = null;
+    prefix = prefix || '';
+    suffix = suffix || '';
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 4);
+      var current = Math.floor(eased * target);
+      el.textContent = prefix + current.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var text = el.textContent.trim();
+
+        if (text === '4.5M') animateCounter(el, 4.5, 'M', '');
+        else if (text === '1,000') animateCounter(el, 1000, '', '');
+        else if (text === '$780K') animateCounter(el, 780, 'K', '$');
+        else if (text === '140K+') animateCounter(el, 140, 'K+', '');
+        else if (text === '1,252') animateCounter(el, 1252, '', '');
+        else if (text === '500+') animateCounter(el, 500, '+', '');
+
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.hero-stat .num, .proof-metric .val, .market-num').forEach(function(el) {
+    counterObserver.observe(el);
+  });
+
+  // === PARALLAX GLOW ON MOUSE MOVE (desktop only) ===
+  if (window.matchMedia('(min-width: 768px)').matches) {
+    document.addEventListener('mousemove', function(e) {
+      var x = e.clientX / window.innerWidth;
+      var y = e.clientY / window.innerHeight;
+      var hero = document.querySelector('.hero');
+      if (hero) {
+        hero.style.setProperty('--mouse-x', (x * 100) + '%');
+        hero.style.setProperty('--mouse-y', (y * 100) + '%');
+      }
+    });
+  }
+
+  // === SMOOTH SCROLL ===
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // === TABLE ROW REVEAL ===
+  var tableRows = document.querySelectorAll('tbody tr');
+  var tableObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateX(0)';
+        tableObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  tableRows.forEach(function(row, i) {
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(-20px)';
+    row.style.transition = 'opacity 0.5s ease ' + (i * 0.08) + 's, transform 0.5s ease ' + (i * 0.08) + 's';
+    tableObserver.observe(row);
   });
 </script>
 
